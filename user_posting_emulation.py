@@ -55,6 +55,8 @@ def run_infinite_post_data_loop():
             
             for row in user_selected_row:
                 user_result = dict(row._mapping)
+
+            invoke_url = "https://1ya353jxdi.execute-api.us-east-1.amazonaws.com/first_stage"
             
             print(pin_result)
             print(geo_result)
