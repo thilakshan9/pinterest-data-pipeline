@@ -57,7 +57,7 @@ def run_infinite_post_data_loop():
                 user_result = dict(row._mapping)
 
             invoke_url = "https://1ya353jxdi.execute-api.us-east-1.amazonaws.com/dev/topics/{}"
-            payload_user = json.dumps({
+            payload_pin = json.dumps({
                 "records": [
                     {
                         "value":{"index": pin_result['index'], "unique_id": pin_result["unique_id"], "title": pin_result["title"], 
@@ -73,7 +73,7 @@ def run_infinite_post_data_loop():
             payload_geo = json.dumps({
                 "records":[
                     {
-                         "value":{"index": geo_result["ind"], "timestamp": geo_result["timestamp"].isoformat(), 
+                         "value":{"index": geo_result["ind"], "country": geo_result["country"], "timestamp": geo_result["timestamp"].isoformat(), 
                                   'latitude': geo_result["latitude"], "longitude": geo_result["longitude"]}
                     }
                 ]
@@ -88,17 +88,11 @@ def run_infinite_post_data_loop():
                 ]
             })
             headers = {'Content-Type': 'application/vnd.kafka.json.v2+json'}
-            response_pin = requests.request("POST", invoke_url.format("0a8597384a69.pin"), headers=headers, data=payload_user)
+            response_pin = requests.request("POST", invoke_url.format("0a8597384a69.pin"), headers=headers, data=payload_pin)
             response_geo = requests.request("POST", invoke_url.format("0a8597384a69.geo"), headers=headers, data=payload_geo)
             response_user = requests.request("POST", invoke_url.format("0a8597384a69.user"), headers=headers, data=payload_user)
 
-            print(invoke_url.format("0a8597384a69.pin"))
-            print(response_pin.status_code)
-            # print(response_geo.status_code)
-            # print(response_user.status_code)
-            print(pin_result)
-            # print(geo_result)
-            # print(user_result)
+      
 
 
 if __name__ == "__main__":
