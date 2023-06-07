@@ -32,6 +32,14 @@ new_connector = AWSDBConnector()
 
 
 def run_infinite_post_data_loop():
+    """
+    The loop sends data to the kafka topics using the API Invoke URL and it uses the three tables which
+    were taken from the pinterest database.
+
+    I initally select all the rows in the database and save the returned rows of the query as a spark dataframe. We
+    then used json.dumps to save the data as a json. Then send it to the api by a put request using the requests module
+    with the header in also.
+    """
     while True:
         sleep(random.randrange(0, 2))
         random_row = random.randint(0, 11000)
@@ -57,11 +65,7 @@ def run_infinite_post_data_loop():
             for row in user_selected_row:
                 user_result = dict(row._mapping)
     
-            
-            def generate_unique_partition_key():
-                return str(int(time.time()))
-
-            # invoke_url = "https://1ya353jxdi.execute-api.us-east-1.amazonaws.com/dev-test/streams/{}/record"
+        
             payload_pin = json.dumps({
                 'StreamName': 'streaming-0a8597384a69-pin',
                 "Data": {
@@ -106,13 +110,7 @@ def run_infinite_post_data_loop():
             response_pin = requests.request("PUT", "https://1ya353jxdi.execute-api.us-east-1.amazonaws.com/last/streams/streaming-0a8597384a69-pin/record", headers=headers, data=payload_pin)
             response_geo = requests.request("PUT", "https://1ya353jxdi.execute-api.us-east-1.amazonaws.com/last/streams/streaming-0a8597384a69-geo/record", headers=headers, data=payload_geo)
             response_user = requests.request("PUT", "https://1ya353jxdi.execute-api.us-east-1.amazonaws.com/last/streams/streaming-0a8597384a69-user/record", headers=headers, data=payload_user)
-            # print( "partition key", payload_user["PartitionKey"])
-            print(response_pin.reason)
-            print(response_pin.content)
-            print(response_pin.json)
-            print(response_pin.status_code)
-            print(response_geo.status_code)
-            print(response_user.status_code)
+   
 
       
 
