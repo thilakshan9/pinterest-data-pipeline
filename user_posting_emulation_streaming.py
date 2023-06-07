@@ -61,7 +61,7 @@ def run_infinite_post_data_loop():
             def generate_unique_partition_key():
                 return str(int(time.time()))
 
-            # invoke_url = "https://1ya353jxdi.execute-api.us-east-1.amazonaws.com/last/streams/{}/record"
+            # invoke_url = "https://1ya353jxdi.execute-api.us-east-1.amazonaws.com/dev-test/streams/{}/record"
             payload_pin = json.dumps({
                 'StreamName': 'streaming-0a8597384a69-pin',
                 "Data": {
